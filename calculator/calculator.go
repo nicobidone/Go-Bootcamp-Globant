@@ -24,6 +24,6 @@ func main() {
 			fmt.Println(operations.Div(a, b))
 		}
 	}
-	// Example 3 + 5
-	// Return 8
+	// Example: 3 + 5
+	// Return: 8
 }
