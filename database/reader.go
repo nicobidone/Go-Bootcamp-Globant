@@ -15,13 +15,10 @@ func main() {
 		   	case "db.inventory.find(":
 		   		fmt.Println(selecteds.Mused())
 		   	default:
-
-		   	for i := 2; i < len(os.Args); i++ {
-		   		fmt.Print(os.Args[i], " ")
-		   	}
-		   	fmt.Println("Syntax not recognised")
-
-
+				for i := 2; i < len(os.Args); i++ {
+					fmt.Print(os.Args[i], " ")
+				}
+				fmt.Println("Syntax not recognised")
 		   }
 		//Example: 	"db.inventory.find(" "{} )"
 		//Return:	"You used MongoDB DB"
