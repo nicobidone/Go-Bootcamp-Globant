@@ -10,15 +10,19 @@ import (
 func main() {
 
 	switch oe := os.Args[1]; oe {
-	case "PostgreSQL":
+	case "SELECT":
 		fmt.Println(selecteds.PostgreSQL())
-	case "MongoDB":
+	case "db.inventory.find(":
 		fmt.Println(selecteds.MongoDB())
 	default:
 		for i := 2; i < len(os.Args); i++ {
 			fmt.Print(os.Args[i], " ")
 		}
+		fmt.Println("Syntax not recognised")
 	}
 
-	//Example: MongoDB otro texto de prueba
+	//Example: 	"db.inventory.find(" "{} )"
+	//Return:	"You used MongoDB DB"
+	//Example:	SELECT * FROM inventory
+	//Return:	"You used PostgreSQL DB"
 }
