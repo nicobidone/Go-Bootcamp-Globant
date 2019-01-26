@@ -5,3 +5,7 @@ for {
 -> calculator
 -> database
 -> printer
+
+-> In Go we instead treat errors as simple values. For this we have the error, 
+functions usually return errors so if something went wrong you simply check 
+whether the error is nil or no
