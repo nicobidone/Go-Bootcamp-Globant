@@ -1,6 +1,6 @@
 package errors
 
 // ErrorType interface
-type ErrorType interface {
+type error interface {
 	Error() string
 }
