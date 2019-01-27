@@ -1,1 +1,4 @@
 https://www.ardanlabs.com/blog/2014/03/exportedunexported-identifiers-in-go.html
+
+https://scotch.io/tutorials/debugging-go-code-with-visual-studio-code
+
