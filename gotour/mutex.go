@@ -3,29 +3,13 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 // SafeCounter is safe to use concurrently.
-type SafeCounter struct {
-	v   map[string]string
+type SafeMap struct {
+	v   map[string]int
 	mux sync.Mutex
-}
-
-// Inc increments the counter for the given key.
-func (c *SafeCounter) Check(key string) bool {
-
-	c.mux.Lock()
-	// Lock so only one goroutine at a time can access the map c.v.
-	res := false
-	//fmt.Println("->", key)
-
-	if _, ok := c.v[key]; !ok {
-		res = true
-		//fmt.Println(val)
-		c.v[key] = "val"
-	}
-	c.mux.Unlock()
-	return res
 }
 
 type Fetcher interface {
@@ -34,11 +18,29 @@ type Fetcher interface {
 	Fetch(url string) (body string, urls []string, err error)
 }
 
+func (s *SafeMap) Checker(key string) bool {
+	s.mux.Lock()
+	res := false
+	_, ok := s.v[key]
+	if !ok {
+		res = true
+		s.v[key] = 1
+	}
+	if ok {
+		s.v[key]++
+	}
+	s.mux.Unlock()
+	return res
+
+}
+
+func Printer(url string, body string) {
+	fmt.Printf("found: %s %q\n", url, body)
+}
+
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
-func (c *SafeCounter) Crawl(ch chan string, url string, depth int, fetcher Fetcher) {
-	//(url string, depth int, fetcher Fetcher) {
-
+func (s *SafeMap) Crawl(url string, depth int, fetcher Fetcher) {
 	// TODO: Fetch URLs in parallel.
 	// TODO: Don't fetch the same URL twice.
 	// This implementation doesn't do either:
@@ -48,43 +50,35 @@ func (c *SafeCounter) Crawl(ch chan string, url string, depth int, fetcher Fetch
 	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
 
-		if c.Check(url + body) {
-			//fmt.Println(err)
-			ch <- ("not found: " + url + body)
+		e := err.Error()
+		if s.Checker(e) {
+			fmt.Println(e)
 		}
-
 		return
 	}
 
-	if c.Check(url + body) {
-		//fmt.Printf("found: %s %q\n", url, body)
-		ch <- ("found: " + url + body)
+	//	fmt.Printf("found: %s %q\n", url, body)
+	if s.Checker(url + body) {
+		Printer(url, body)
 	}
 
 	for _, u := range urls {
-		go c.Crawl(ch, u, depth-1, fetcher)
+		s.Crawl(u, depth-1, fetcher)
 	}
-
 	return
 }
 
-func (c *SafeCounter) _Crawl(ch chan string, url string, depth int, fetcher Fetcher) {
-	go c.Crawl(ch, url, depth, fetcher)
-	//close(ch)
-}
-
-func (c *SafeCounter) PreCrawl(url string, depth int, fetcher Fetcher) {
-	ch := make(chan string)
-	go c._Crawl(ch, url, depth, fetcher)
-	for i := range ch {
-		fmt.Println(i)
-	}
-}
-
 func main() {
-	c := SafeCounter{v: make(map[string]string)}
-	//c.Crawl("https://golang.org/", 4, fetcher)
-	c.PreCrawl("https://golang.org/", 4, fetcher)
+	s := SafeMap{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go s.Crawl("https://golang.org/", 4, fetcher)
+	}
+
+	time.Sleep(3 * time.Second)
+	fmt.Println()
+	for key, val := range s.v {
+		fmt.Println(key, val)
+	}
 }
 
 // fakeFetcher is Fetcher that returns canned results.
