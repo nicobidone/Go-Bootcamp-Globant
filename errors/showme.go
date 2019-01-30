@@ -23,18 +23,14 @@ func whatType(v interface{}) {
 // Sqrt error
 func Sqrt(x string) error {
 	if x == "C" {
-		//return &tipos.InternalError{"Error Interno"}
-		x := tipos.NewThing()
-		return x
-
-	} /*
-		if x == "B" {
-			return errors.New("errorThirdParty")
-		}*/
-	/*
-		if x == "C" {
-			return "otro", errors.New("errorOther")
-		}*/
+		return tipos.NewInternalError()
+	}
+	if x == "B" {
+		return tipos.NewThirdPartyError()
+	}
+	if x == "C" {
+		return tipos.NewOtherError()
+	}
 	return nil
 }
 

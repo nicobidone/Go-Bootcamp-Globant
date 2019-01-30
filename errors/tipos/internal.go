@@ -5,8 +5,8 @@ type InternalError struct {
 	Res string
 }
 
-// NewThing inic
-func NewThing() *InternalError {
+// NewInternalError inic
+func NewInternalError() *InternalError {
 	p := new(InternalError)
 	p.Res = "Error Interno" // <- a very sensible default value
 	return p
