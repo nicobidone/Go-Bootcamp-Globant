@@ -1,6 +1,11 @@
 package themap
 
-import "github.com/nicob/db/thedata"
+import (
+	"errors"
+	"fmt"
+
+	"github.com/nicob/db/thedata"
+)
 
 // CrudImpl is a basic map structure
 type CrudImpl struct {
@@ -23,8 +28,13 @@ func (t CrudImpl) Create(key string, val thedata.Container) {
 }
 
 // Read blabla
-func (t CrudImpl) Read(key string) thedata.Container {
-	return t.m[key]
+func (t CrudImpl) Read(key string) (thedata.Container, error) {
+	value, ok := t.m[key]
+	if !ok {
+		x := *thedata.NewContainer("", "")
+		return x, errors.New("The value is not avaible")
+	}
+	return value, nil
 }
 
 //Update blabla
@@ -35,4 +45,8 @@ func (t CrudImpl) Update(key string, val thedata.Container) {
 //Delete bla bla
 func (t CrudImpl) Delete(key string) {
 	delete(t.m, key)
+}
+
+func (t CrudImpl) Error() string {
+	return fmt.Sprint("El valor no se encuentra disponible")
 }
