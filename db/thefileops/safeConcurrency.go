@@ -9,8 +9,10 @@ type SafeFile struct {
 }
 
 // NewSafeFile inics a SafeFile struct with an incoming path
-func (s *SafeFile) NewSafeFile(path string) {
+func NewSafeFile(path string) *SafeFile {
+	s := new(SafeFile)
 	s.path = path
+	return s
 }
 
 func (s *SafeFile) SafeCreateFile() {
@@ -31,8 +33,8 @@ func (s *SafeFile) SafeReadFile() {
 	ReadFile(s.path)
 }
 
-func (s *SafeFile) SafeWriteFile() {
+func (s *SafeFile) SafeWriteFile(text string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	WriteFile(s.path)
+	WriteFile(s.path, text)
 }
