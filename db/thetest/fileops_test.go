@@ -4,9 +4,9 @@ import "testing"
 import "github.com/nicob/db/thefileops"
 
 func TestFileOps(t *testing.T) {
-
-	thefileops.CreateFile()
-	thefileops.WriteFile()
-	thefileops.ReadFile()
-	thefileops.DeleteFile()
+	var path = "C:\\Users\\nicob\\go\\src\\github.com\\nicob\\db\\test.txt"
+	thefileops.CreateFile(path)
+	thefileops.WriteFile(path)
+	thefileops.ReadFile(path)
+	thefileops.DeleteFile(path)
 }

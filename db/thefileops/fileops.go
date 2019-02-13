@@ -6,9 +6,8 @@ import (
 	"os"
 )
 
-var path = "C:\\Users\\nicob\\go\\src\\github.com\\nicob\\db\\test.txt"
-
-func CreateFile() {
+// CreateFile needs the file location
+func CreateFile(path string) {
 	// check if file exists
 	var _, err = os.Stat(path)
 
@@ -24,7 +23,8 @@ func CreateFile() {
 	fmt.Println("File Created Successfully", path)
 }
 
-func WriteFile() {
+// WriteFile needs the file location
+func WriteFile(path string) {
 	// Open file using READ & WRITE permission.
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if isError(err) {
@@ -51,7 +51,8 @@ func WriteFile() {
 	fmt.Println("File Updated Successfully.")
 }
 
-func ReadFile() {
+// ReadFile needs the file location
+func ReadFile(path string) {
 	// Open file for reading.
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if isError(err) {
@@ -80,7 +81,8 @@ func ReadFile() {
 	fmt.Println(string(text))
 }
 
-func DeleteFile() {
+// DeleteFile needs the file location
+func DeleteFile(path string) {
 	// delete file
 	var err = os.Remove(path)
 	if isError(err) {
