@@ -5,3 +5,5 @@ https://scotch.io/tutorials/debugging-go-code-with-visual-studio-code
 https://www.ardanlabs.com/blog/2013/07/how-packages-work-in-go-language.html
 
 https://www.tutorialspoint.com/unix/unix-file-permission.htm
+
+https://godoc.org/github.com/nightlyone/lockfile
