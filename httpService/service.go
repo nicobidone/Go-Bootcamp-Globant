@@ -19,7 +19,7 @@ func (n Name) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func main2() {
 	n := Name("Globant")
 	http.Handle("/", n)
 	log.Fatal(http.ListenAndServe(":8080", nil))
